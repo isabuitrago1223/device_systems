@@ -279,37 +279,33 @@ X-API-Version: 1.0
 
 ---
 
-## Evidencias
-
 ### Captura 1 - Estructura del Proyecto
 
-![Estructura]
+![Estructura](app/capturas/cap1.png)
 
 ### Captura 2 - Swagger UI
 
-![Swagger](capturas)
+![Swagger](app/capturas/cap2.jpeg)
 
 ### Captura 3 - GET /users
 
-![GET Users](capturas/cap3.png)
+![GET Users](app/capturas/cap3.jpeg)
 
 ### Captura 4 - GET /users/{user_id}
 
-![GET User ID](capturas/cap4.png)
+![GET User ID](app/capturas/cap4.jpeg)
 
 ### Captura 5 - Filtro por Rol
 
-![Filtro Rol](capturas/cap5.png)
+![Filtro Rol](app/capturas/cap5.jpeg)
 
 ### Captura 6 - Filtro por Estado
 
-![Filtro Estado](capturas/cap6.png)
+![Filtro Estado](app/capturas/cap6.jpeg)
 
 ### Captura 7 - POST /users
 
-![POST User](capturas/cap7.png)
-
----
+![POST User](app/capturas/cap7.jpeg)
 
 ## Reflexión Final
 
