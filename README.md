@@ -552,9 +552,40 @@ X-API-Version: 1.0
 **Imagen 7 —  Estructura del Proyecto**
 <img width="172" height="268" alt="img1" src="https://github.com/user-attachments/assets/ca575283-ed1e-44a1-aec4-15bdb0892fb9" />
 
-
-
 ---
+
+Evidencias de errores controlados
+
+<!-- pf7 -->
+pf 15 — Usuario inexistente
+<img width="468" height="420" alt="pf1" src="https://github.com/user-attachments/assets/9d90db25-01ff-4929-a8c1-8426e9de9449" />
+
+
+<!-- pf8 -->
+pf 16 — Correo duplicado
+<img width="458" height="400" alt="pf7" src="https://github.com/user-attachments/assets/b4275713-e6f7-4467-b104-b3cb2c13b74a" />
+
+<!-- pf9 -->
+pf 17 — Datos inválidos
+<img width="497" height="438" alt="pf8" src="https://github.com/user-attachments/assets/19a86823-36d9-4519-8c1a-1d2de599b000" />
+<img width="496" height="428" alt="pf3" src="https://github.com/user-attachments/assets/8145153b-ed63-4860-a958-ace1f42b5c8b" />
+
+
+<!-- pf10 -->
+pf 18 — Actualizar usuario inexistente
+
+
+<!-- pf11 -->
+pf 19 — PATCH vacío
+<img width="497" height="438" alt="pf8" src="https://github.com/user-attachments/assets/f150feda-270b-4dec-8883-b73af2ac5678" />
+
+
+
+<!-- pf12 -->
+pf 20 — Eliminar usuario inexistente
+<img width="507" height="296" alt="pf9" src="https://github.com/user-attachments/assets/50338777-9d7b-4fa6-815b-8eac59a1f200" />
+
+
 
 ## Aprendizajes
 
