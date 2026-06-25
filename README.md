@@ -518,30 +518,40 @@ X-API-Version: 1.0
 
 <!-- img1 -->
 **Imagen 1 — Swagger UI / Endpoints disponibles**
+<img width="673" height="293" alt="img2" src="https://github.com/user-attachments/assets/5cc41021-3d4d-4e4e-ae26-b7cc63142a16" />
 
 
 <!-- img2 -->
 **Imagen 2 — GET /users**
+<img width="404" height="309" alt="img3" src="https://github.com/user-attachments/assets/89fb579c-4aca-4237-afdf-c9f3bbdd12af" />
 
 
 <!-- img3 -->
 **Imagen 3 — POST /users**
+<img width="539" height="110" alt="img4" src="https://github.com/user-attachments/assets/2925e36d-1f11-45ab-a20e-baab4bcd36e9" />
 
 
 <!-- img4 -->
 **Imagen 4 — PUT /users/{id}**
+<img width="540" height="151" alt="img5" src="https://github.com/user-attachments/assets/a56ca025-d52c-4def-bb58-42d0bd7d11e2" />
+
+
 
 
 <!-- img5 -->
 **Imagen 5 — PATCH /users/{id}**
+<img width="540" height="152" alt="img6" src="https://github.com/user-attachments/assets/4c387bcc-7ef6-4326-92b4-582826cdca0b" />
 
 
 <!-- img6 -->
 **Imagen 6 — DELETE /users/{id}**
+<img width="543" height="163" alt="img7" src="https://github.com/user-attachments/assets/c51dbd6e-ebb6-4ebc-9592-0519c78399cb" />
 
 
 <!-- img7 -->
 **Imagen 7 —  Estructura del Proyecto**
+<img width="172" height="268" alt="img1" src="https://github.com/user-attachments/assets/ca575283-ed1e-44a1-aec4-15bdb0892fb9" />
+
 
 
 ---
