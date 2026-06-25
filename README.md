@@ -872,55 +872,71 @@ Se realizaron pruebas para verificar:
 ## Evidencias
 
 ### Captura 1 - Estructura del proyecto
-![Captura 1](capturas/evi1.png)
+<img width="118" height="461" alt="evi1" src="https://github.com/user-attachments/assets/4fb58b1e-baff-4daa-bb33-2b7e9a51feb9" />
 
 ### Captura 2 - Base de datos SQLite
-![Captura 2](capturas/evi2.png)
+<img width="125" height="34" alt="evi2" src="https://github.com/user-attachments/assets/13eaafc5-c99c-4726-b272-a123cff0b178" />
+
 
 ### Captura 3 - Swagger UI
-![Captura 3](capturas/evi3.png)
+<img width="776" height="355" alt="evi3" src="https://github.com/user-attachments/assets/4a75ff4f-d153-4b31-8411-d35a5b859333" />
+
 
 ### Captura 4 - Crear usuario (POST)
-![Captura 4](capturas/evi4.png)
+<img width="511" height="431" alt="evi4" src="https://github.com/user-attachments/assets/533c6528-4539-431b-b2f4-70a42c26260b" />
+
 
 ### Captura 5 - Correo duplicado
-![Captura 5](capturas/evi5.png)
+<img width="514" height="421" alt="evi5" src="https://github.com/user-attachments/assets/a2758003-4b3f-4ac9-8a29-b1e95ac56616" />
+
 
 ### Captura 6 - Obtener usuarios (GET)
-![Captura 6](capturas/evi6.png)
+<img width="499" height="335" alt="evi6" src="https://github.com/user-attachments/assets/7f942a07-137a-4112-b1a4-f6d99e65ff06" />
+
 
 ### Captura 7 - Obtener usuario por ID
-![Captura 7](capturas/evi7.png)
+<img width="507" height="291" alt="evi7" src="https://github.com/user-attachments/assets/c6d86dfa-4b48-4ac6-bd49-672aba8e9e1c" />
+
 
 ### Captura 8 - Usuario inexistente
-![Captura 8](capturas/evi8.png)
+<img width="504" height="269" alt="evi8" src="https://github.com/user-attachments/assets/f831896c-7bdf-4857-8a53-eff71dc0990d" />
+
 
 ### Captura 9 - Filtrar por rol
-![Captura 9](capturas/evi9.png)
+<img width="506" height="352" alt="evi9" src="https://github.com/user-attachments/assets/607ed54b-45f8-4bdc-bbe0-7611c027ae47" />
+
 
 ### Captura 10 - Filtrar por estado
-![Captura 10](capturas/evi10.png)
+<img width="508" height="350" alt="evi10" src="https://github.com/user-attachments/assets/2fdc8b61-bfcf-4c45-88cf-7fdfa0483b6c" />
+
 
 ### Captura 11 - Actualización completa (PUT)
-![Captura 11](capturas/evi11.png)
+<img width="443" height="412" alt="evi11" src="https://github.com/user-attachments/assets/f223823e-b1b8-4d43-ac15-19fea2a07d7c" />
+
 
 ### Captura 12 - Actualización parcial (PATCH)
-![Captura 12](capturas/evi12.png)
+<img width="443" height="398" alt="evi12" src="https://github.com/user-attachments/assets/f9e60e3d-37e3-4209-bab6-cdf2495977ea" />
+
 
 ### Captura 13 - Eliminar usuario (DELETE)
-![Captura 13](capturas/evi13.png)
+<img width="440" height="238" alt="evi13" src="https://github.com/user-attachments/assets/5692341e-4c93-4e6d-89a0-c9a266b51d51" />
+
 
 ### Captura 14 - Verificación de usuario eliminado
-![Captura 14](capturas/evi14.png)
+<img width="445" height="241" alt="evi14" src="https://github.com/user-attachments/assets/ae51233a-1f19-4759-bb79-becc7ff8926f" />
+
 
 ### Captura 15 - ReDoc
-![Captura 15](capturas/evi15.png)
+<img width="959" height="469" alt="evi15" src="https://github.com/user-attachments/assets/8b4aecd7-5aad-4393-9821-8ed5737687bd" />
+
 
 ### Captura 16 - Correo inválido
-![Captura 16](capturas/evi16.png)
+<img width="542" height="340" alt="evi16" src="https://github.com/user-attachments/assets/b56707c9-c9c8-4551-abe0-3a9468ec5fd1" />
+
 
 ### Captura 17 - Rol inválido
-![Captura 17](capturas/evi17.png)
+<img width="539" height="340" alt="evi17" src="https://github.com/user-attachments/assets/ca170940-7da1-4832-bf95-6160fd823679" />
+
 ---
 
 ## Diferencia entre Modelo SQLAlchemy y Schema Pydantic
