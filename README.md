@@ -564,3 +564,389 @@ X-API-Version: 1.0
 - Manejo de errores HTTP
 - Validación con Pydantic
 - Documentación automática con Swagger
+
+- -------------------------------------------------------------------------------------------------------------------------
+
+# Device Systems API EV10
+
+## Descripción
+
+Device Systems API es una aplicación backend desarrollada con FastAPI para la gestión de usuarios, dispositivos y préstamos mediante una API REST.
+
+En esta versión (EV10), la aplicación evoluciona incorporando relaciones entre entidades mediante SQLAlchemy ORM, migraciones con Alembic y gestión completa de préstamos de dispositivos.
+
+La API permite administrar usuarios, dispositivos y préstamos, garantizando la integridad de los datos mediante relaciones entre tablas, validaciones con Pydantic y documentación automática con Swagger/OpenAPI.
+
+---
+
+## Funcionalidades
+
+La aplicación permite:
+
+* Crear usuarios.
+* Consultar usuarios.
+* Actualizar usuarios.
+* Eliminar usuarios.
+* Crear dispositivos.
+* Consultar dispositivos.
+* Actualizar dispositivos.
+* Eliminar dispositivos.
+* Registrar préstamos de dispositivos.
+* Consultar préstamos.
+* Devolver dispositivos prestados.
+* Consultar detalles de préstamos.
+* Aplicar relaciones entre tablas mediante SQLAlchemy.
+* Aplicar validaciones con Pydantic v2.
+* Gestionar migraciones con Alembic.
+* Generar documentación automática con Swagger UI y ReDoc.
+
+---
+
+## Tecnologías Utilizadas
+
+* Python 3.x
+* FastAPI
+* SQLAlchemy
+* SQLite
+* Alembic
+* Pydantic v2
+* Uvicorn
+* Swagger UI
+* ReDoc
+* Git
+* GitHub
+
+---
+
+## Estructura del Proyecto
+
+```text
+device_systems/
+│
+├── app/
+│   │
+│   ├── main.py
+│   │
+│   ├── database/
+│   │   └── connection.py
+│   │
+│   ├── models/
+│   │   ├── user_model.py
+│   │   ├── device_model.py
+│   │   └── loan_model.py
+│   │
+│   ├── schemas/
+│   │   ├── user_schema.py
+│   │   ├── device_schema.py
+│   │   └── loan_schema.py
+│   │
+│   ├── routes/
+│   │   ├── user_routes.py
+│   │   ├── device_routes.py
+│   │   └── loan_routes.py
+│   │
+│   ├── services/
+│   │   ├── user_service.py
+│   │   ├── device_service.py
+│   │   └── loan_service.py
+│   │
+│   └── dependencies/
+│       └── database_dependency.py
+│
+├── alembic/
+│   └── versions/
+│
+├── device_systems.db
+├── alembic.ini
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## Instalación
+
+### 1. Clonar repositorio
+
+```bash
+git clone https://github.com/TU-USUARIO/device_systems.git
+cd device_systems
+```
+
+### 2. Crear entorno virtual
+
+```bash
+python -m venv .venv
+```
+
+### 3. Activar entorno virtual
+
+Windows:
+
+```bash
+.venv\Scripts\activate
+```
+
+Linux/Mac:
+
+```bash
+source .venv/bin/activate
+```
+
+### 4. Instalar dependencias
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Ejecución del Proyecto
+
+```bash
+uvicorn app.main:app --reload
+```
+
+Salida esperada:
+
+```text
+INFO: Uvicorn running on http://127.0.0.1:8000
+```
+
+---
+
+## Base de Datos
+
+La aplicación utiliza SQLite como motor de base de datos.
+
+Archivo generado:
+
+```text
+device_systems.db
+```
+
+Las tablas son creadas mediante SQLAlchemy y administradas mediante Alembic.
+
+Tablas principales:
+
+* users
+* devices
+* loans
+
+---
+
+## Migraciones Alembic
+
+Crear migración:
+
+```bash
+alembic revision --autogenerate -m "create devices and loans tables"
+```
+
+Aplicar migraciones:
+
+```bash
+alembic upgrade head
+```
+
+---
+
+## Documentación Automática
+
+### Swagger UI
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+### ReDoc
+
+```text
+http://127.0.0.1:8000/redoc
+```
+
+---
+
+## Endpoints Disponibles
+
+### Users
+
+| Método | Endpoint    |
+| ------ | ----------- |
+| GET    | /users      |
+| GET    | /users/{id} |
+| POST   | /users      |
+| PUT    | /users/{id} |
+| PATCH  | /users/{id} |
+| DELETE | /users/{id} |
+
+### Devices
+
+| Método | Endpoint      |
+| ------ | ------------- |
+| GET    | /devices      |
+| GET    | /devices/{id} |
+| POST   | /devices      |
+| PUT    | /devices/{id} |
+| PATCH  | /devices/{id} |
+| DELETE | /devices/{id} |
+
+### Loans
+
+| Método | Endpoint           |
+| ------ | ------------------ |
+| GET    | /loans             |
+| GET    | /loans/{id}        |
+| POST   | /loans             |
+| PATCH  | /loans/{id}/return |
+
+---
+
+## Relaciones Implementadas
+
+### User → Loan
+
+Un usuario puede tener múltiples préstamos.
+
+### Device → Loan
+
+Un dispositivo puede tener múltiples préstamos.
+
+### Loan → User
+
+Cada préstamo pertenece a un usuario.
+
+### Loan → Device
+
+Cada préstamo pertenece a un dispositivo.
+
+---
+
+## Validaciones Implementadas
+
+### Usuarios
+
+* Nombre obligatorio.
+* Correo válido.
+* Correo único.
+* Rol obligatorio.
+
+### Dispositivos
+
+* Nombre obligatorio.
+* Número de serie único.
+* Tipo de dispositivo obligatorio.
+
+### Préstamos
+
+* Usuario existente.
+* Dispositivo existente.
+* Dispositivo disponible para préstamo.
+
+---
+
+## Pruebas Funcionales
+
+Se realizaron pruebas para verificar:
+
+1. Crear usuario.
+2. Consultar usuarios.
+3. Crear dispositivo.
+4. Consultar dispositivos.
+5. Filtrar dispositivos.
+6. Crear préstamo.
+7. Evitar préstamo de dispositivo no disponible.
+8. Consultar préstamos.
+9. Consultar préstamo por ID.
+10. Devolver dispositivo.
+11. Verificar disponibilidad después de devolución.
+12. Documentación Swagger.
+13. Documentación ReDoc.
+
+---
+
+## Evidencias
+
+## Evidencias
+
+### Captura 1 - Inicialización de Alembic
+<img width="560" height="406" alt="c1" src="https://github.com/user-attachments/assets/aa7a58bc-167f-4631-b0dc-add693324686" />
+
+
+### Captura 2 - Configuración de env.py
+
+<img width="339" height="139" alt="c2" src="https://github.com/user-attachments/assets/064468cd-9b3e-4d48-bc2d-25ac2b78e893" />
+
+
+### Captura 3 - Generación de migración
+
+<img width="500" height="435" alt="c3" src="https://github.com/user-attachments/assets/ecdef7c5-d073-4012-a452-ee013eb93feb" />
+
+
+### Captura 4 - Aplicación de migración
+<img width="629" height="79" alt="c4" src="https://github.com/user-attachments/assets/aadfb339-806a-4697-bf19-e23e9b77a918" />
+
+
+### Captura 5 - Historial de migraciones
+<img width="449" height="67" alt="c5" src="https://github.com/user-attachments/assets/d1f20a57-a1a5-47f7-871c-2c2cfb2cb0ca" />
+
+
+### Captura 6 - Tablas creadas en SQLite
+<img width="673" height="63" alt="c6" src="https://github.com/user-attachments/assets/2162e16b-0bb2-4ce1-ae4c-bd3c6639398f" />
+
+
+
+### Captura 7 - Swagger - Users
+
+<img width="550" height="153" alt="c7" src="https://github.com/user-attachments/assets/82406d14-34d5-4766-9fd7-f0115a1363b1" />
+
+
+### Captura 8 - Swagger - Devices
+<img width="547" height="158" alt="c9" src="https://github.com/user-attachments/assets/c02279e2-58b0-4888-9a10-b64a5d70642f" />
+<img width="547" height="158" alt="c8" src="https://github.com/user-attachments/assets/3a1481bc-ed7d-4d1f-8314-a7b4e927af17" />
+
+
+### Captura 9 - Swagger - Loans
+
+![Uploading c9.png…]()
+
+### Captura 10 - Creación de usuario
+<img width="457" height="433" alt="C10" src="https://github.com/user-attachments/assets/480b9ca8-d4b5-48de-9b48-0dfd1972536f" />
+
+
+### Captura 11 - Creación de dispositivo
+<img width="455" height="437" alt="C11" src="https://github.com/user-attachments/assets/59715138-5566-4c86-a67e-becbf3b46bb4" />
+
+
+### Captura 12 - Creación de préstamo
+<img width="453" height="436" alt="C12" src="https://github.com/user-attachments/assets/7be9d5ec-91c8-4d83-b716-bfebe2820b6f" />
+
+
+### Captura 13 - Intento de préstamo duplicado
+<img width="453" height="426" alt="C13" src="https://github.com/user-attachments/assets/bc2fc8e0-1059-4d05-8c36-7ec3f274eef3" />
+
+
+### Captura 14 - Consulta de préstamos
+<img width="455" height="280" alt="C14" src="https://github.com/user-attachments/assets/4d688a43-60dd-4834-af61-4685daf1cf3f" />
+
+
+### Captura 15 - Consulta de préstamos activos
+<img width="468" height="292" alt="C15" src="https://github.com/user-attachments/assets/bff3608f-2095-4a8a-86bf-e8f176492cfc" />
+
+
+### Captura 16 - Devolución de dispositivo
+<img width="450" height="309" alt="C16" src="https://github.com/user-attachments/assets/6d11e2f0-39a1-4258-b5da-701635f1b97f" />
+
+
+### Captura 17 - Verificación de disponibilidad del dispositivo
+<img width="458" height="311" alt="C17" src="https://github.com/user-attachments/assets/8b96a251-e01a-4ee8-ac1e-040a2e852ac6" />
+
+
+
+## Reflexión Final
+
+Durante el desarrollo de esta actividad se fortalecieron los conocimientos sobre modelado relacional utilizando SQLAlchemy ORM, relaciones entre entidades, migraciones con Alembic y construcción de APIs REST más cercanas a escenarios reales.
+
+La implementación de usuarios, dispositivos y préstamos permitió comprender cómo gestionar relaciones entre tablas, mantener integridad referencial y automatizar cambios en la base de datos mediante migraciones.
+
+Además, se consolidó el uso de FastAPI, Pydantic y SQLAlchemy para construir aplicaciones backend más robustas, escalables y mantenibles.
