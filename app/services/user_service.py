@@ -1,33 +1,52 @@
-from app.data.users_db import users_db
+from sqlalchemy.orm import Session
+
+from app.models.user_model import User
 
 
-def get_users():
-    return users_db
+def get_users(db: Session):
+    return db.query(User).all()
 
 
-def get_user_by_id(user_id: int):
-    return next((u for u in users_db if u["id"] == user_id), None)
+def get_user_by_id(db: Session, user_id: int):
+    return db.query(User).filter(User.id == user_id).first()
 
 
-def create_user(user_data):
-    users_db.append(user_data)
-    return user_data
+def get_user_by_email(db: Session, email: str):
+    return db.query(User).filter(User.email == email).first()
 
 
-def delete_user(user_id: int):
-    global users_db
-    users_db = [u for u in users_db if u["id"] != user_id]
+def create_user(db: Session, user_data):
+    new_user = User(**user_data)
+
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+
+    return new_user
+
+
+def update_user(db: Session, user_id: int, user_data: dict):
+    user = get_user_by_id(db, user_id)
+
+    if not user:
+        return None
+
+    for key, value in user_data.items():
+        setattr(user, key, value)
+
+    db.commit()
+    db.refresh(user)
+
+    return user
+
+
+def delete_user(db: Session, user_id: int):
+    user = get_user_by_id(db, user_id)
+
+    if not user:
+        return False
+
+    db.delete(user)
+    db.commit()
+
     return True
-
-
-def email_exists(email: str):
-    return any(u["email"] == email for u in users_db)
-
-def update_user(user_id: int, user_data: dict):
-    user = get_user_by_id(user_id)
-
-    if user:
-        user.update(user_data)
-        return user
-
-    return None
