@@ -16,3 +16,12 @@ SessionLocal = sessionmaker(
 )
 
 Base = declarative_base()
+
+# --- ESTA ES LA FUNCIÓN QUE TE HACÍA FALTA ---
+def get_db():
+    """Genera una sesión de base de datos para cada petición y la cierra al terminar."""
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
