@@ -564,3 +564,381 @@ X-API-Version: 1.0
 - Manejo de errores HTTP
 - Validación con Pydantic
 - Documentación automática con Swagger
+
+- --------------------------------------------------------------------------------------------------------------------
+
+# Device Systems API EV09
+
+## Descripción
+ 
+Device Systems API es una aplicación backend desarrollada con FastAPI para la gestión de usuarios mediante una API REST.
+
+En esta versión (EV09), la aplicación evoluciona desde una estructura basada en almacenamiento temporal en memoria hacia una solución con persistencia real de datos utilizando SQLAlchemy y SQLite.
+
+La API permite realizar operaciones CRUD completas sobre usuarios almacenados en una base de datos relacional, aplicando validaciones mediante Pydantic, restricciones de integridad y documentación automática con Swagger/OpenAPI.
+
+---
+
+## Funcionalidades
+
+La aplicación permite:
+
+* Crear usuarios en base de datos.
+* Consultar todos los usuarios.
+* Consultar usuarios por ID.
+* Filtrar usuarios por rol.
+* Filtrar usuarios por estado activo/inactivo.
+* Actualizar usuarios completamente mediante PUT.
+* Actualizar usuarios parcialmente mediante PATCH.
+* Eliminar usuarios.
+* Validar datos utilizando Pydantic v2.
+* Evitar correos electrónicos duplicados.
+* Aplicar restricciones mediante SQLAlchemy.
+* Generar documentación automática con Swagger UI y ReDoc.
+
+---
+
+## Tecnologías Utilizadas
+
+* Python 3.x
+* FastAPI
+* SQLAlchemy
+* SQLite
+* Pydantic v2
+* Uvicorn
+* Swagger UI
+* ReDoc
+* Git
+* GitHub
+
+---
+
+## Estructura del Proyecto
+
+```text
+device_systems/
+│
+├── app/
+│   │
+│   ├── main.py
+│   │
+│   ├── database/
+│   │   └── connection.py
+│   │
+│   ├── models/
+│   │   └── user_model.py
+│   │
+│   ├── schemas/
+│   │   └── user_schema.py
+│   │
+│   ├── routes/
+│   │   └── user_routes.py
+│   │
+│   ├── services/
+│   │   └── user_service.py
+│   │
+│   └── dependencies/
+│       └── database_dependency.py
+│
+├── device_systems.db
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## Instalación
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/TU-USUARIO/device_systems.git
+cd device_systems
+```
+
+### 2. Crear entorno virtual
+
+```bash
+python -m venv .venv
+```
+
+### 3. Activar entorno virtual
+
+#### Windows
+
+```bash
+.venv\Scripts\activate
+```
+
+#### Linux / Mac
+
+```bash
+source .venv/bin/activate
+```
+
+### 4. Instalar dependencias
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Ejecución del Proyecto
+
+Ejecutar:
+
+```bash
+uvicorn app.main:app --reload
+```
+
+Salida esperada:
+
+```text
+INFO: Uvicorn running on http://127.0.0.1:8000
+```
+
+---
+
+## Base de Datos
+
+La aplicación utiliza SQLite para almacenar la información de los usuarios.
+
+Archivo generado:
+
+```text
+device_systems.db
+```
+
+SQLAlchemy se encarga de crear automáticamente las tablas a partir de los modelos definidos.
+
+---
+
+## Documentación Automática
+
+### Swagger UI
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+### ReDoc
+
+```text
+http://127.0.0.1:8000/redoc
+```
+
+---
+
+## Endpoints Disponibles
+
+| Método | Endpoint         | Descripción                     |
+| ------ | ---------------- | ------------------------------- |
+| GET    | /                | Mensaje de bienvenida           |
+| GET    | /users           | Obtener todos los usuarios      |
+| GET    | /users/{user_id} | Buscar usuario por ID           |
+| POST   | /users           | Crear usuario                   |
+| PUT    | /users/{user_id} | Actualizar usuario completo     |
+| PATCH  | /users/{user_id} | Actualizar usuario parcialmente |
+| DELETE | /users/{user_id} | Eliminar usuario                |
+
+---
+
+## Modelo SQLAlchemy
+
+La tabla users contiene los siguientes campos:
+
+| Campo      | Tipo     |
+| ---------- | -------- |
+| id         | Integer  |
+| name       | String   |
+| email      | String   |
+| role       | String   |
+| is_active  | Boolean  |
+| created_at | DateTime |
+
+### Restricciones Implementadas
+
+* id como Primary Key.
+* email único.
+* email obligatorio.
+* name obligatorio.
+* role obligatorio.
+* is_active con valor por defecto True.
+
+---
+
+## Schemas Pydantic
+
+### UserCreate
+
+Utilizado para crear usuarios.
+
+### UserUpdate
+
+Utilizado para actualizar usuarios completamente.
+
+### UserPatch
+
+Utilizado para actualizaciones parciales.
+
+### UserResponse
+
+Utilizado para las respuestas de la API.
+
+---
+
+## Validaciones Implementadas
+
+### Nombre
+
+Debe contener mínimo 3 caracteres.
+
+Ejemplo inválido:
+
+```json
+{
+  "name": "Jo"
+}
+```
+
+---
+
+### Correo Electrónico
+
+Debe tener formato válido.
+
+Ejemplo inválido:
+
+```json
+{
+  "email": "correo_invalido"
+}
+```
+
+---
+
+### Rol
+
+Valores permitidos:
+
+* admin
+* support
+* user
+
+Ejemplo inválido:
+
+```json
+{
+  "role": "manager"
+}
+```
+
+---
+
+### Correo Duplicado
+
+La API no permite registrar usuarios con correos ya existentes.
+
+Respuesta:
+
+```json
+{
+  "detail": "Correo ya registrado"
+}
+```
+
+---
+
+## Pruebas Funcionales
+
+Se realizaron pruebas para verificar:
+
+1. Creación de usuarios.
+2. Consulta de usuarios.
+3. Consulta por ID.
+4. Consulta de usuario inexistente.
+5. Filtrado por rol.
+6. Filtrado por estado.
+7. Actualización completa mediante PUT.
+8. Actualización parcial mediante PATCH.
+9. Eliminación mediante DELETE.
+10. Validación de correo duplicado.
+11. Validación de correo inválido.
+12. Validación de rol inválido.
+
+---
+
+## Evidencias
+
+### Captura 1 - Estructura del proyecto
+![Captura 1](capturas/evi1.png)
+
+### Captura 2 - Base de datos SQLite
+![Captura 2](capturas/evi2.png)
+
+### Captura 3 - Swagger UI
+![Captura 3](capturas/evi3.png)
+
+### Captura 4 - Crear usuario (POST)
+![Captura 4](capturas/evi4.png)
+
+### Captura 5 - Correo duplicado
+![Captura 5](capturas/evi5.png)
+
+### Captura 6 - Obtener usuarios (GET)
+![Captura 6](capturas/evi6.png)
+
+### Captura 7 - Obtener usuario por ID
+![Captura 7](capturas/evi7.png)
+
+### Captura 8 - Usuario inexistente
+![Captura 8](capturas/evi8.png)
+
+### Captura 9 - Filtrar por rol
+![Captura 9](capturas/evi9.png)
+
+### Captura 10 - Filtrar por estado
+![Captura 10](capturas/evi10.png)
+
+### Captura 11 - Actualización completa (PUT)
+![Captura 11](capturas/evi11.png)
+
+### Captura 12 - Actualización parcial (PATCH)
+![Captura 12](capturas/evi12.png)
+
+### Captura 13 - Eliminar usuario (DELETE)
+![Captura 13](capturas/evi13.png)
+
+### Captura 14 - Verificación de usuario eliminado
+![Captura 14](capturas/evi14.png)
+
+### Captura 15 - ReDoc
+![Captura 15](capturas/evi15.png)
+
+### Captura 16 - Correo inválido
+![Captura 16](capturas/evi16.png)
+
+### Captura 17 - Rol inválido
+![Captura 17](capturas/evi17.png)
+---
+
+## Diferencia entre Modelo SQLAlchemy y Schema Pydantic
+
+Los modelos SQLAlchemy representan la estructura de las tablas dentro de la base de datos y permiten realizar operaciones de persistencia sobre los datos.
+
+Por otro lado, los schemas Pydantic se utilizan para validar la información que entra y sale de la API, garantizando que los datos cumplan con las reglas definidas antes de ser procesados.
+
+Esta separación permite mantener una arquitectura más organizada, segura y escalable.
+
+---
+
+## Reflexión Final
+
+Durante el desarrollo de esta actividad se comprendió la importancia de la persistencia de datos en las aplicaciones backend.
+
+La integración de SQLAlchemy con FastAPI permitió reemplazar el almacenamiento temporal en memoria por una base de datos relacional, logrando que la información permanezca disponible incluso después de reiniciar la aplicación.
+
+Además, se fortalecieron conocimientos relacionados con ORM, validaciones mediante Pydantic, manejo de errores, operaciones CRUD y documentación automática mediante Swagger/OpenAPI.
+
+Esta experiencia permitió comprender cómo se construyen APIs REST más robustas, escalables y cercanas a entornos reales de desarrollo profesional.
