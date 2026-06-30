@@ -564,3 +564,305 @@ X-API-Version: 1.0
 - Manejo de errores HTTP
 - Validación con Pydantic
 - Documentación automática con Swagger
+
+- ------------------------------------------------------------------------------------------------------------------------
+
+# Device Systems API EV11 – Seguridad y Autenticación
+
+## Descripción
+
+**Device Systems API** es una aplicación backend desarrollada con FastAPI para la gestión de usuarios, dispositivos y préstamos mediante una API REST.
+
+En esta versión (**EV11**), la aplicación incorpora mecanismos avanzados de seguridad para proteger los recursos y garantizar un acceso controlado a la información. Se implementa autenticación mediante JWT (JSON Web Tokens), autorización basada en roles (RBAC), protección de rutas con OAuth2, control de peticiones mediante Rate Limiting y configuración segura de CORS.
+
+---
+
+## Funcionalidades
+
+La aplicación permite:
+
+###  Autenticación Avanzada
+
+* Registro seguro de usuarios.
+* Inicio de sesión mediante credenciales.
+* Contraseñas protegidas mediante hashing con Passlib y Bcrypt.
+
+###  Tokens JWT
+
+* Generación de tokens de acceso seguros.
+* Validación automática de tokens en rutas protegidas.
+* Gestión de sesiones mediante Bearer Token.
+
+###  Control de Acceso por Roles (RBAC)
+
+* Roles disponibles:
+
+  * Admin
+  * Support
+  * User
+* Restricción de operaciones según permisos asignados.
+
+### 🛡 Protección de Rutas
+
+* Endpoints privados protegidos mediante OAuth2.
+* Respuestas automáticas:
+
+  * 401 Unauthorized para usuarios no autenticados.
+  * 403 Forbidden para usuarios sin permisos.
+
+### Middleware Personalizado
+
+* Registro de peticiones.
+* Medición de tiempo de respuesta.
+* Generación de identificadores únicos de solicitud.
+* Inclusión de cabeceras personalizadas:
+
+  * X-App-Name
+  * X-Process-Time
+  * X-Request-ID
+
+###  Rate Limiting
+
+* Limitación de peticiones por dirección IP.
+* Prevención de ataques de fuerza bruta y abuso de recursos.
+
+###  Configuración de CORS
+
+* Acceso restringido únicamente a clientes autorizados.
+* Protección frente a solicitudes cruzadas no confiables.
+
+###  Persistencia de Datos
+
+* Base de datos SQLite.
+* ORM SQLAlchemy.
+* Migraciones administradas con Alembic.
+
+---
+
+## Tecnologías Utilizadas
+
+| Tecnología       | Descripción                    |
+| ---------------- | ------------------------------ |
+| Python 3.x       | Lenguaje principal             |
+| FastAPI          | Framework para APIs REST       |
+| SQLAlchemy       | ORM para acceso a datos        |
+| Alembic          | Migraciones de base de datos   |
+| SQLite           | Motor de base de datos         |
+| Pydantic v2      | Validación de datos            |
+| Passlib + Bcrypt | Hash seguro de contraseñas     |
+| Python-JOSE      | Generación y validación de JWT |
+| SlowAPI          | Rate Limiting                  |
+| Uvicorn          | Servidor ASGI                  |
+| Swagger UI       | Documentación interactiva      |
+| ReDoc            | Documentación alternativa      |
+
+---
+
+## Estructura del Proyecto
+
+```text
+device_systems/
+│
+├── app/
+│   ├── main.py
+│   │
+│   ├── auth/
+│   │   ├── auth_routes.py
+│   │   ├── auth_service.py
+│   │   └── security.py
+│   │
+│   ├── database/
+│   │   └── connection.py
+│   │
+│   ├── models/
+│   │   ├── user_model.py
+│   │   ├── device_model.py
+│   │   └── loan_model.py
+│   │
+│   ├── schemas/
+│   │   ├── auth_schema.py
+│   │   ├── user_schema.py
+│   │   ├── device_schema.py
+│   │   └── loan_schema.py
+│   │
+│   ├── routes/
+│   │   ├── user_routes.py
+│   │   ├── device_routes.py
+│   │   └── loan_routes.py
+│   │
+│   ├── services/
+│   │   ├── user_service.py
+│   │   ├── device_service.py
+│   │   └── loan_service.py
+│   │
+│   └── dependencies/
+│       ├── database_dependency.py
+│       └── auth_dependency.py
+│
+├── alembic/
+├── device_systems.db
+├── alembic.ini
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## Instalación y Ejecución
+
+### 1. Activar entorno virtual
+
+```bash
+source .venv/Scripts/activate
+```
+
+### 2. Instalar dependencias
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Aplicar migraciones
+
+```bash
+alembic upgrade head
+```
+
+### 4. Ejecutar el servidor
+
+```bash
+uvicorn app.main:app --reload
+```
+
+---
+
+## Documentación Automática
+
+### Swagger UI
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+### ReDoc
+
+```text
+http://127.0.0.1:8000/redoc
+```
+
+---
+
+## Endpoints de Autenticación
+
+| Método | Endpoint       | Descripción                          | Protegido |
+| ------ | -------------- | ------------------------------------ | --------- |
+| POST   | /auth/register | Registro de usuarios                 | No        |
+| POST   | /auth/login    | Inicio de sesión y generación de JWT | No        |
+| GET    | /auth/me       | Información del usuario autenticado  | Sí        |
+
+---
+
+## Configuración de Seguridad
+
+### CORS
+
+La API permite solicitudes únicamente desde:
+
+```text
+http://localhost:3000
+http://localhost:5173
+```
+
+No se utiliza el comodín (`*`) debido a que, en entornos de producción, permitiría que cualquier dominio pudiera interactuar con la API, aumentando significativamente los riesgos de seguridad cuando se utilizan credenciales o tokens de autenticación.
+
+### Rate Limiting
+
+Se configuró un límite de peticiones por dirección IP para prevenir abuso de los endpoints.
+
+Ejemplos:
+
+* Login: 5 solicitudes por minuto.
+* Registro: 3 solicitudes por minuto.
+* Usuarios: 30 solicitudes por minuto.
+
+Cuando se supera el límite permitido, la API responde con:
+
+```http
+429 Too Many Requests
+```
+
+---
+
+## Evidencias de Pruebas
+
+### 1. Estructura del proyecto
+<img width="171" height="233" alt="cp1 2" src="https://github.com/user-attachments/assets/54f71fff-81c9-4f1e-939f-465c433866dd" />
+<img width="191" height="466" alt="cp1" src="https://github.com/user-attachments/assets/08a9a928-67cd-408d-bdac-76a380f08c4b" />
+
+
+
+### 2. Migración Alembic aplicada
+<img width="184" height="34" alt="cp2" src="https://github.com/user-attachments/assets/5402cfed-3e10-4bc4-bc9a-aaf9c8708aaf" />
+
+
+
+```bash
+alembic upgrade head
+```
+
+### 3. Registro de usuario
+
+<img width="461" height="371" alt="cp3" src="https://github.com/user-attachments/assets/2635ac17-0456-4ec2-9eff-32ee66538642" />
+
+
+### 4. Login y token generado
+
+<img width="455" height="416" alt="cp4" src="https://github.com/user-attachments/assets/872dce2c-3912-44d7-9bc5-22b555e2e7d7" />
+
+
+### 5. Endpoint /auth/me
+
+<img width="251" height="171" alt="cp5" src="https://github.com/user-attachments/assets/820ef073-52a0-4ab1-8e93-b5a0b7853ad7" />
+
+
+### 6. Acceso sin token
+
+<img width="416" height="287" alt="cp6" src="https://github.com/user-attachments/assets/f863b086-dea9-4c1b-9965-07731cba98ed" />
+
+
+### 7. Acceso con rol no permitido
+<img width="407" height="340" alt="cp7" src="https://github.com/user-attachments/assets/354d828c-615b-4bc9-8191-251651749292" />
+
+
+### 8. Swagger con OAuth2
+
+<img width="352" height="324" alt="cp8" src="https://github.com/user-attachments/assets/fcd8f094-6d3f-4320-9e4f-596e4ec5dbc2" />
+
+
+### 9. Cabeceras del middleware
+<img width="440" height="352" alt="cp9" src="https://github.com/user-attachments/assets/4d660f05-fe54-430b-baf8-db7c6340e31b" />
+
+
+* X-App-Name
+* X-Process-Time
+* X-Request-ID
+
+### 10. Rate Limiting
+<img width="478" height="342" alt="cp10" src="https://github.com/user-attachments/assets/01c246a4-4ada-42bc-ade1-a180eb7a30c1" />
+
+ 
+
+```http
+429 Too Many Requests
+```
+
+---
+
+## Reflexión Final
+
+La seguridad en una API REST es fundamental porque los endpoints se encuentran expuestos a través de la red y representan el punto de acceso a los recursos y datos del sistema.
+
+La implementación de mecanismos como JWT, OAuth2, hashing de contraseñas, control de acceso por roles, middleware de monitoreo y Rate Limiting permite reducir significativamente los riesgos asociados a accesos no autorizados, ataques de fuerza bruta y abuso de recursos.
+
+Gracias a estas prácticas, la aplicación garantiza la confidencialidad, integridad y disponibilidad de la información, acercándose a los estándares utilizados en entornos profesionales de desarrollo backend.
+
